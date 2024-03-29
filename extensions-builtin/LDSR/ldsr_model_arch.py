@@ -39,9 +39,13 @@ class LDSR:
             model.load_state_dict(sd, strict=False)
             model = model.to(shared.device)
             if half_attention:
+                print()
+                #todo recovery
                 model = model.half()
             if shared.cmd_opts.opt_channelslast:
-                model = model.to(memory_format=torch.channels_last)
+                model.to('cuda:0')
+                # todo recovery
+                #model = model.to(memory_format=torch.channels_last)
 
             sd_hijack.model_hijack.hijack(model) # apply optimization
             model.eval()

@@ -3,6 +3,7 @@ import sys
 from dataclasses import dataclass
 
 import gradio as gr
+from typing import Dict
 
 from modules import errors
 from modules.shared_cmd_options import cmd_opts
@@ -80,7 +81,7 @@ options_builtin_fields = {"data_labels", "data", "restricted_opts", "typemap"}
 class Options:
     typemap = {int: float}
 
-    def __init__(self, data_labels: dict[str, OptionInfo], restricted_opts):
+    def __init__(self, data_labels: Dict[str, OptionInfo], restricted_opts):
         self.data_labels = data_labels
         self.data = {k: v.default for k, v in self.data_labels.items() if not v.do_not_save}
         self.restricted_opts = restricted_opts
