@@ -38,10 +38,15 @@ def api_only():
     script_callbacks.app_started_callback(None, app)
 
     print(f"Startup time: {startup_timer.summary()}.")
+    # api.launch(
+    #     server_name="0.0.0.0" if cmd_opts.listen else "127.0.0.1",
+    #     port=cmd_opts.port if cmd_opts.port else 7861,
+    #     root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else ""
+    # )
     api.launch(
-        server_name="0.0.0.0" if cmd_opts.listen else "127.0.0.1",
-        port=cmd_opts.port if cmd_opts.port else 7861,
-        root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else ""
+        server_name="127.0.0.1",
+        port=7860,  # 自己选一个端口
+        root_path="/StableDiffusion/Web"
     )
 
 
@@ -76,24 +81,43 @@ def webui():
             elif shared.opts.auto_launch_browser == "Local":
                 auto_launch_browser = not cmd_opts.webui_is_non_local
 
+        # app, local_url, share_url = shared.demo.launch(
+        #     share=cmd_opts.share,
+        #     server_name=initialize_util.gradio_server_name(),
+        #     server_port=cmd_opts.port,
+        #     ssl_keyfile=cmd_opts.tls_keyfile,
+        #     ssl_certfile=cmd_opts.tls_certfile,
+        #     ssl_verify=cmd_opts.disable_tls_verify,
+        #     debug=cmd_opts.gradio_debug,
+        #     auth=gradio_auth_creds,
+        #     inbrowser=auto_launch_browser,
+        #     prevent_thread_lock=True,
+        #     allowed_paths=cmd_opts.gradio_allowed_path,
+        #     app_kwargs={
+        #         "docs_url": "/docs",
+        #         "redoc_url": "/redoc",
+        #     },
+        #     root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else "",
+        # )
         app, local_url, share_url = shared.demo.launch(
             share=cmd_opts.share,
-            server_name=initialize_util.gradio_server_name(),
-            server_port=cmd_opts.port,
+            server_name="127.0.0.1",
+            server_port=7860,
             ssl_keyfile=cmd_opts.tls_keyfile,
             ssl_certfile=cmd_opts.tls_certfile,
             ssl_verify=cmd_opts.disable_tls_verify,
             debug=cmd_opts.gradio_debug,
             auth=gradio_auth_creds,
-            inbrowser=auto_launch_browser,
+            inbrowser=cmd_opts.autolaunch and os.getenv('SD_WEBUI_RESTARTING') != '1',
             prevent_thread_lock=True,
             allowed_paths=cmd_opts.gradio_allowed_path,
             app_kwargs={
                 "docs_url": "/docs",
                 "redoc_url": "/redoc",
             },
-            root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else "",
+            root_path="/StableDiffusion/Web",
         )
+
 
         startup_timer.record("gradio launch")
 
