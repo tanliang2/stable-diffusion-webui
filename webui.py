@@ -45,7 +45,7 @@ def api_only():
     # )
     api.launch(
         server_name="127.0.0.1",
-        port=7860,  # 自己选一个端口
+        port=7861,  # 自己选一个端口
         root_path="/StableDiffusion/Web"
     )
 
@@ -102,7 +102,7 @@ def webui():
         app, local_url, share_url = shared.demo.launch(
             share=cmd_opts.share,
             server_name="127.0.0.1",
-            server_port=7860,
+            server_port=7861,
             ssl_keyfile=cmd_opts.tls_keyfile,
             ssl_certfile=cmd_opts.tls_certfile,
             ssl_verify=cmd_opts.disable_tls_verify,

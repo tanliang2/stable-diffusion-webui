@@ -52,7 +52,7 @@ if cmd_opts.ngrok is not None:
     print('ngrok authtoken detected, trying to connect...')
     ngrok.connect(
         cmd_opts.ngrok,
-        cmd_opts.port if cmd_opts.port is not None else 7860,
+        cmd_opts.port if cmd_opts.port is not None else 7861,
         cmd_opts.ngrok_options
         )
 
